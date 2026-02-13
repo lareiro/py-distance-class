@@ -1,3 +1,4 @@
+from __future__ import annotations
 from numbers import Real
 
 
@@ -12,33 +13,33 @@ class Distance:
         return f"Distance(km={self.km})"
 
     @staticmethod
-    def _to_km(value: object) -> Real | object:
+    def _to_km(value: Distance | Real) -> Real | Distance:
         if isinstance(value, Distance):
             return value.km
         if isinstance(value, Real):
             return value
         return NotImplemented
 
-    def __add__(self, other: object) -> 'Distance':
+    def __add__(self, other: Distance | int | float) -> Distance:
         other_km = self._to_km(other)
         if other_km is NotImplemented:
             return NotImplemented
         return Distance(self.km + other_km)
 
-    def __iadd__(self, other: object) -> 'Distance':
+    def __iadd__(self, other: Distance | int | float) -> Distance:
         other_km = self._to_km(other)
         if other_km is NotImplemented:
             return NotImplemented
         self.km += other_km
         return self
 
-    def __mul__(self, other: object) -> 'Distance':
+    def __mul__(self, other: int | float) -> Distance:
         other_km = self._to_km(other)
         if other_km is NotImplemented or isinstance(other, Distance):
             return NotImplemented
         return Distance(self.km * other_km)
 
-    def __truediv__(self, other: object) -> 'Distance':
+    def __truediv__(self, other: int | float) -> Distance:
         other_km = self._to_km(other)
         if other_km is NotImplemented or isinstance(other, Distance):
             return NotImplemented
